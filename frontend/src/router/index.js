@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import BoardView from '@/views/BoardView.vue'
-import BoardDetailView from "@/views/BoardDetailView.vue";
+import BoardDetailView from "@/views/BoardDetailView.vue"
+import BoardCrudView from "@/views/BoardCrudView.vue"
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,11 @@ const routes = [
     path: '/board/detail/:id',
     name: 'BoardDetailView',
     component: BoardDetailView,
+  },
+  {
+    path: '/board-crud',
+    name: 'BoardCrudView',
+    component: BoardCrudView,
   }
 ]
 
