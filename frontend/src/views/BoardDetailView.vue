@@ -31,7 +31,7 @@ export default {
     async fetchPostData() {
       const postId = this.$route.params.id; // URL 파라미터에서 게시물 ID 가져오기
       try {
-        const response = await axios.get(`http://localhost:8080/board/list/${postId}`);
+        const response = await axios.get(process.env.VUE_APP_API_URL + `/board/list/${postId}`);
         this.post = response.data.data; // 서버에서 받은 데이터 저장
       } catch (error) {
         console.error('게시물 데이터를 불러오는 중 오류 발생:', error);
