@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:8081") // Vue 앱의 URL
 @RestController
 @RequestMapping("/board")
 public class BoardController {
