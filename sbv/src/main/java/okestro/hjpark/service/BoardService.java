@@ -13,7 +13,7 @@ import java.util.Map;
 public class BoardService {
 
     public Map<String, Object> boardList() {
-        File file = new File("src/main/java/okestro/hjpark/temp/boardData.json");
+        File file = new File("/Users/huijunpark/Desktop/study/Assignment/SpringBoot+ORM/sbv/src/main/java/okestro/hjpark/temp/boardData.json");
 
         Map<String, Object> jsonData = new HashMap();
         ObjectMapper mapper = new ObjectMapper();
@@ -28,7 +28,8 @@ public class BoardService {
     }
 
     public Map<String, Object> boardDetail(int id) {
-        File file = new File("src/main/java/okestro/hjpark/temp/boardData.json");
+
+        File file = new File("/Users/huijunpark/Desktop/study/Assignment/SpringBoot+ORM/sbv/src/main/java/okestro/hjpark/temp/boardData.json");
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Map<String, Object>> jsonData = null;
