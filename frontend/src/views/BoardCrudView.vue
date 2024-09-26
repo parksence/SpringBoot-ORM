@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>게시판 CRUD 보기</h1>
-    <button class="button-ui">추가</button>
+    <button class="button-ui" @click="newBoard">추가</button>
+    <button class="delete-button-ui" @click="deleteSelected">삭제</button>
     <div v-if="loading">데이터를 불러오는 중입니다...</div> <!-- 로딩 메시지 -->
     <div v-else>
       <grid
@@ -49,7 +50,7 @@ export default {
   methods: {
     async fetchBoardData() {
       try {
-        const response = await axios.get('http://localhost:8080/notice/board/list');
+        const response = await axios.get(process.env.VUE_APP_API_URL + 'notice/board/list');
         const responseData = response.data.data; // 서버에서 받은 데이터 구조에 맞게 수정 필요
         const postArray = Object.values(responseData); // 객체를 배열로 변환
 
@@ -65,11 +66,18 @@ export default {
         const post = this.gridProps.data[ev.rowKey];
         const postId = post.id;
 
-        window.open(`/board-crud/detail/${postId}`, '_blank');
+        this.$router.push(`/board-crud/detail/${postId}`);
       }
     },
     onPageChange(page) {
       this.currentPage = page;
+    },
+    newBoard() {
+      // 신규 게시글 작성 페이지로 이동
+      this.$router.push('/board-crud/new');
+    },
+    deleteSelected() {
+      
     }
   },
   mounted() {
@@ -101,6 +109,30 @@ export default {
 
 .button-ui:active {
   transform: translateY(1px);  /* 클릭 시 살짝 눌린 효과 */
+}
+
+.delete-button-ui {
+  position: fixed;
+  top: 130px; /* 위치 조정 */
+  right: 90px; /* 오른쪽으로 간격 */
+  padding: 10px 20px;
+  background-color: #dc3545; /* 빨간색 배경 */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-button-ui:hover {
+  background-color: #c82333; /* 호버 시 조금 더 짙은 빨간색 */
+  transform: translateY(-3px);
+}
+
+.delete-button-ui:active {
+  transform: translateY(1px);
 }
 
 </style>

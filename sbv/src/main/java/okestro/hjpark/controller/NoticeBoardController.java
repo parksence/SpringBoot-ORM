@@ -3,11 +3,13 @@ package okestro.hjpark.controller;
 import okestro.hjpark.base.BaseResponse;
 import okestro.hjpark.entity.NoticeBoardEntity;
 import okestro.hjpark.service.NoticeBoardService;
+import okestro.hjpark.vo.PasswordVerificationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/notice/board")
@@ -22,22 +24,20 @@ public class NoticeBoardController {
     // 게시판 목록 조회 API
     @GetMapping("list")
     public ResponseEntity<BaseResponse> boardList() {
-        Map<String, Object> map = new HashMap();
-
         // NoticeBoardList 조회
         List<NoticeBoardEntity> boardList = noticeBoardService.boardList();
 
-        // List<Entity> -> map 변환
-        for (NoticeBoardEntity board : boardList) {
-            map.put(board.getId().toString(), board);
-        }
-        
+        // List<Entity> -> Map 변환 (Stream API 사용)
+        Map<String, Object> boardMap = boardList.stream()
+                .collect(Collectors.toMap(board -> board.getId().toString(), board -> board));
+
+        // BaseResponse 객체 생성 및 응답 처리
         BaseResponse response = BaseResponse.builder()
                 .code("OK")
-                .data(map)
+                .data(boardMap)
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(response); // ResponseEntity 사용 최적화
     }
 
     // 상세 조회 API
@@ -98,6 +98,25 @@ public class NoticeBoardController {
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 게시물 패스워드 확인
+    @PostMapping("/verify-password")
+    public ResponseEntity<BaseResponse> getBoardPassword(@RequestBody PasswordVerificationRequest request) {
+        Long postId = request.getId(); // ID 가져오기
+        String password = request.getPassword(); // 패스워드 가져오기
+
+        // 패스워드 검증 로직
+        boolean isValid = noticeBoardService.verifyPassword(postId, password); // 패스워드 검증 메서드 호출
+
+        BaseResponse response = new BaseResponse();
+        if (isValid) {
+            response.setCode("true");
+        } else {
+            response.setCode("false");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     // 유저 생성 API

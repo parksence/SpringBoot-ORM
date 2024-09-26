@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoticeBoardServiceImpl implements NoticeBoardService {
@@ -37,5 +38,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     @Override
     public void deleteBoard(Long id) {
         noticeBoardRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean verifyPassword(Long postId, String password) {
+        Optional<NoticeBoardEntity> optionalPost = noticeBoardRepository.findById(postId);
+        return optionalPost.isPresent() && optionalPost.get().getPassword().equals(password);
     }
 }

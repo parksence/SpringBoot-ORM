@@ -12,4 +12,5 @@ public interface NoticeBoardService {
     NoticeBoardEntity addBoard(NoticeBoardEntity board);
     NoticeBoardEntity updateBoard(NoticeBoardEntity board);
     void deleteBoard(Long id);
+    boolean verifyPassword(Long postId, String password);
 }
