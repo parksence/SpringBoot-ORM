@@ -56,13 +56,49 @@ public class NoticeBoardController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 상세 조회 API
-
     // 추가 API
+    @PostMapping("/add")
+    public ResponseEntity<BaseResponse> addBoard(@RequestBody NoticeBoardEntity board) {
+        Map<String, Object> map = new HashMap();
+        NoticeBoardEntity newBoard = noticeBoardService.addBoard(board);
+
+        map.put(newBoard.getId().toString(), newBoard);
+
+        BaseResponse response = BaseResponse.builder()
+                .code("OK")
+                .data(map)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     // 수정 API
+    @PutMapping("/update")
+    public ResponseEntity<BaseResponse> updateBoard(@RequestBody NoticeBoardEntity board) {
+        Map<String, Object> map = new HashMap();
+        NoticeBoardEntity updateBoard = noticeBoardService.updateBoard(board);
+
+        map.put(updateBoard.getId().toString(), updateBoard);
+
+        BaseResponse response = BaseResponse.builder()
+                .code("OK")
+                .data(map)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     // 삭제 API
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<BaseResponse> deleteBoard(@PathVariable("id") Long id) {
+        noticeBoardService.deleteBoard(id);
+
+        BaseResponse response = BaseResponse.builder()
+                .code("OK")
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     // 유저 생성 API
 

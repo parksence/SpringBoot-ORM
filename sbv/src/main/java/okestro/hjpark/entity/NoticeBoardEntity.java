@@ -19,8 +19,8 @@ public class NoticeBoardEntity {
     @Column(name = "AUTHOR")
     private String author;
 
-    @Column(name = "CONTNET")
-    private String contnet;
+    @Column(name = "CONTENT")
+    private String content;
 
     @Column(name = "PASSWORD")
     private String password;
@@ -31,7 +31,7 @@ public class NoticeBoardEntity {
                "id=" + id +
                ", title='" + title + '\'' +
                ", author='" + author + '\'' +
-               ", contnet='" + contnet + '\'' +
+               ", content='" + content + '\'' +
                ", password='" + password + '\'' +
                '}';
     }

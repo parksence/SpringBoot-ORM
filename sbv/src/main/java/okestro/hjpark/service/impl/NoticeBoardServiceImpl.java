@@ -23,4 +23,19 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
     public NoticeBoardEntity board(Long id) {
         return noticeBoardRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public NoticeBoardEntity addBoard(NoticeBoardEntity board) {
+        return noticeBoardRepository.save(board);
+    }
+
+    @Override
+    public NoticeBoardEntity updateBoard(NoticeBoardEntity board) {
+        return noticeBoardRepository.save(board);
+    }
+
+    @Override
+    public void deleteBoard(Long id) {
+        noticeBoardRepository.deleteById(id);
+    }
 }
