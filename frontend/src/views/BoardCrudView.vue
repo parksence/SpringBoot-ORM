@@ -84,13 +84,13 @@ export default {
       this.$router.push('/board-crud/new');
     },
     async deleteSelected() { // 삭제 버튼 클릭
-      if (this.selectedRows.length === 0) {
+      const pageRows = this.$refs.grid.invoke('getCheckedRows');
+      const values = pageRows.map(row => row.id);
+
+      if (values.length === 0) {
         alert('삭제할 게시글을 선택해 주세요.');
         return;
       } else {
-        const values = this.selectedRows.filter(item => typeof item === 'number');
-        console.log('values', values)
-
         try {
           const response = await axios.post(process.env.VUE_APP_API_URL + 'notice/board/delete', {
             ids: values // 삭제할 ID 배열 전송
@@ -111,21 +111,27 @@ export default {
         }
       }
     },
-    handleCheck(ev) {
+    handleCheck() {
+      console.log('handleCheck')
       // 선택된 행 ID를 업데이트
-      this.selectedRows.push(ev.rowKey+1);
+      const pageRows = this.$refs.grid.invoke('getCheckedRows');
+      const ids = pageRows.map(row => row.id);
+      this.selectedRows.push(ids);
     },
     handleUncheck(ev) {
+      console.log('handleUncheck')
       // 선택된 행 ID를 업데이트
       this.selectedRows = this.selectedRows.filter(id => id !== ev.rowKey+1);
     },
     handleCheckAll() {
+      console.log('handleCheckAll')
       // 현재 페이지의 모든 행 선택
       const pageRows = this.$refs.grid.invoke('getCheckedRows');
       const ids = pageRows.map(row => row.id);
       this.selectedRows.push(...ids);
     },
     handleUncheckAll() {
+      console.log('handleUncheckAll')
       // 현재 페이지의 모든 행 선택 해제
       this.selectedRows = [];
     },

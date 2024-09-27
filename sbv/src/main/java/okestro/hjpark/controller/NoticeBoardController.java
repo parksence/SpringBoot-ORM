@@ -93,6 +93,7 @@ public class NoticeBoardController {
     public ResponseEntity<String> deleteBoard(@RequestBody Map<String, List<Long>> requestData) {
 
         List<Long> ids = requestData.get("ids");
+        System.out.println("ids.toString() = " + ids.toString());
         try {
             // 삭제 로직 수행
             for (Long id : ids) {
