@@ -89,15 +89,19 @@ public class NoticeBoardController {
     }
 
     // 삭제 API
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<BaseResponse> deleteBoard(@PathVariable("id") Long id) {
-        noticeBoardService.deleteBoard(id);
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteBoard(@RequestBody Map<String, List<Long>> requestData) {
 
-        BaseResponse response = BaseResponse.builder()
-                .code("OK")
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        List<Long> ids = requestData.get("ids");
+        try {
+            // 삭제 로직 수행
+            for (Long id : ids) {
+                 noticeBoardService.deleteBoard(id);
+            }
+            return ResponseEntity.ok("게시물이 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 중 오류가 발생했습니다.");
+        }
     }
 
     // 게시물 패스워드 확인

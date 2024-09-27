@@ -6,12 +6,18 @@
     <div v-if="loading">데이터를 불러오는 중입니다...</div> <!-- 로딩 메시지 -->
     <div v-else>
       <grid
+          ref="grid"
           :data="gridProps.data"
           :columns="gridProps.columns"
+          :rowHeaders="['checkbox']"
           :pageOptions="gridProps.pageOptions"
           :pagination="true"
           @click="onClick"
           @pageChange="onPageChange"
+          @check="handleCheck"
+          @uncheck="handleUncheck"
+          @checkAll="handleCheckAll"
+          @uncheckAll="handleUncheckAll"
       />
     </div>
   </div>
@@ -25,12 +31,13 @@ import axios from 'axios';
 
 export default {
   components: {
-    grid: Grid
+    grid: Grid,
   },
   data() {
     return {
       loading: true, // 로딩 상태 추가
       currentPage: 1,
+      selectedRows: [], // 선택된 행의 ID를 저장할 배열
       gridProps: {
         data: [], // 데이터는 빈 배열로 초기화
         columns: [
@@ -76,11 +83,55 @@ export default {
       // 신규 게시글 작성 페이지로 이동
       this.$router.push('/board-crud/new');
     },
-    deleteSelected() {
-      
-    }
+    async deleteSelected() { // 삭제 버튼 클릭
+      if (this.selectedRows.length === 0) {
+        alert('삭제할 게시글을 선택해 주세요.');
+        return;
+      } else {
+        const values = this.selectedRows.filter(item => typeof item === 'number');
+        console.log('values', values)
+
+        try {
+          const response = await axios.post(process.env.VUE_APP_API_URL + 'notice/board/delete', {
+            ids: values // 삭제할 ID 배열 전송
+          });
+
+          // 서버 응답이 'ok' 일 때 화면 갱신
+          if (response.status === 200 && response.data === "게시물이 삭제되었습니다.") {
+            console.log('삭제 성공:', response.data);
+
+            // 화면 새로고침
+            location.reload();
+          } else {
+            console.log('삭제 실패 또는 서버 오류:', response.data);
+          }
+
+        } catch (error) {
+          console.error('Error deleting data:', error);
+        }
+      }
+    },
+    handleCheck(ev) {
+      // 선택된 행 ID를 업데이트
+      this.selectedRows.push(ev.rowKey+1);
+    },
+    handleUncheck(ev) {
+      // 선택된 행 ID를 업데이트
+      this.selectedRows = this.selectedRows.filter(id => id !== ev.rowKey+1);
+    },
+    handleCheckAll() {
+      // 현재 페이지의 모든 행 선택
+      const pageRows = this.$refs.grid.invoke('getCheckedRows');
+      const ids = pageRows.map(row => row.id);
+      this.selectedRows.push(...ids);
+    },
+    handleUncheckAll() {
+      // 현재 페이지의 모든 행 선택 해제
+      this.selectedRows = [];
+    },
   },
   mounted() {
+    // 게시판 리스트 조회
     this.fetchBoardData();
   }
 };
