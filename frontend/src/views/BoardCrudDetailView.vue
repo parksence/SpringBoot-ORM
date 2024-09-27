@@ -91,11 +91,13 @@ export default {
           password: this.passwordInput,
         });
 
-        if (response.data.code) {
+        if (JSON.parse(response.data.code)) {
           this.isEditing = true; // 패스워드가 일치하면 수정 모드 활성화
           this.closePasswordModal(); // 모달 닫기
+          console.log('11111')
         } else {
           this.errorMessage = '패스워드가 일치하지 않습니다.'; // 패스워드 오류 메시지
+          console.log('22222')
         }
       } catch (error) {
         console.error('패스워드 확인 중 오류 발생:', error);
