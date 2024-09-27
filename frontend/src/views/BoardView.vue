@@ -19,7 +19,7 @@
 import { Grid } from '@toast-ui/vue-grid';
 import 'tui-grid/dist/tui-grid.css';
 import 'tui-pagination/dist/tui-pagination.css';
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   components: {
@@ -49,7 +49,7 @@ export default {
   methods: {
     async fetchBoardData() {
       try {
-        const response = await axios.get('http://localhost:8080/board/list');
+        const response = await axios.get(process.env.VUE_APP_API_URL + '/board/list');
         const responseData = response.data.data; // 서버에서 받은 데이터 구조에 맞게 수정 필요
         const postArray = Object.values(responseData); // 객체를 배열로 변환
 

@@ -4,6 +4,8 @@ import HomeView from '@/views/HomeView.vue'
 import BoardView from '@/views/BoardView.vue'
 import BoardDetailView from "@/views/BoardDetailView.vue"
 import BoardCrudView from "@/views/BoardCrudView.vue"
+import BoardCrudDetailView from "@/views/BoardCrudDetailView.vue"
+import BoardCrudNewView from  "@/views/BoardCrudNewView.vue"
 
 Vue.use(VueRouter)
 
@@ -32,6 +34,16 @@ const routes = [
     path: '/board-crud',
     name: 'BoardCrudView',
     component: BoardCrudView,
+  },
+  {
+    path: '/board-crud/detail/:id',
+    name: 'BoardCrudDetailView',
+    component: BoardCrudDetailView
+  },
+  {
+    path: '/board-crud/new',
+    name: 'BoardCrudNewView',
+    component: BoardCrudNewView,
   }
 ]
 

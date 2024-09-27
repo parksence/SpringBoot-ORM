@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -32,6 +34,15 @@ public class Utils {
         TypeReference<Map<String, Object>> typeReference = new TypeReference<Map<String,Object>>() {};
 
         return objectMapper.readValue(json, typeReference);
+    }
+
+    public static Map<String, Object> listToMap(List<Object> list) {
+        Map<String, Object> map = new HashMap();
+        for (int i = 0; i < list.size(); i++) {
+            // 인덱스를 키로, 리스트의 항목을 값으로 변환
+            map.put(String.valueOf(i), list.get(i));
+        }
+        return map;
     }
 
 }
