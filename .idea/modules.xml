@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringBoot+ORM.iml" filepath="$PROJECT_DIR$/.idea/SpringBoot+ORM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sbv/hjpark.iml" filepath="$PROJECT_DIR$/sbv/hjpark.iml" />
     </modules>
   </component>
 </project>
