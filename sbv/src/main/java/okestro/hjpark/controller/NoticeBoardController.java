@@ -123,12 +123,4 @@ public class NoticeBoardController {
 
         return ResponseEntity.ok(response);
     }
-
-    // 유저 생성 API
-
-    // 유저 수정 API
-
-    // 유저 삭제 API
-
-    // 시간남으면 게시물에 댓글 작성하여 DB에 CURD 구현
 }

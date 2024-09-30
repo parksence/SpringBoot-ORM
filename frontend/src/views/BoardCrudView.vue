@@ -61,6 +61,9 @@ export default {
         const responseData = response.data.data; // 서버에서 받은 데이터 구조에 맞게 수정 필요
         const postArray = Object.values(responseData); // 객체를 배열로 변환
 
+        // ID 기준 내림차순 정렬
+        postArray.sort((a, b) => b.id - a.id);
+
         this.gridProps.data = postArray; // 변환된 데이터를 gridProps.data에 저장
         this.loading = false; // 데이터를 불러온 후 로딩 상태 해제
       } catch (error) {
