@@ -1,7 +1,6 @@
 package okestro.hjpark.controller;
 
 import okestro.hjpark.base.BaseResponse;
-import okestro.hjpark.entity.NoticeBoardEntity;
 import okestro.hjpark.entity.UserEntity;
 import okestro.hjpark.service.UserService;
 import org.springframework.http.HttpStatus;
